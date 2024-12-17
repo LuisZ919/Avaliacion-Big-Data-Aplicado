@@ -1,0 +1,49 @@
+from langchain_community.vectorstores import FAISS
+from langchain_community.embeddings import SentenceTransformerEmbeddings
+from langchain_core.documents import Document
+from pymongo import MongoClient
+
+# Configurar conexión a MongoDB Atlas
+mongo_url = "mongodb+srv://angeluis2027:9A9l1998@exercicio-de-sistemas-r.xjvoi.mongodb.net/?retryWrites=true&w=majority&appName=Exercicio-de-sistemas-RAG"
+client = MongoClient(mongo_url)
+db = client["test"]
+collection = db["prueba"]
+
+# Cargar documentos desde MongoDB
+documents = []
+for doc in collection.find():
+    content = doc.get("content", "")
+    name = doc.get("name", "unknown")
+    if content:  # Solo agregar si 'content' no está vacío
+        documents.append(Document(page_content=content, metadata={"source": name}))
+
+# Validar si hay documentos
+if not documents:
+    print("No se encontraron documentos válidos en la colección de MongoDB.")
+    exit()
+
+# Crear embeddings y verificar si funcionan
+embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
+print("Generando embeddings...")
+
+# Prueba rápida de embeddings
+test_embedding = embeddings.embed_query("Texto de prueba")
+if not test_embedding:
+    print("Error: No se pudo generar embeddings. Verifica la instalación de 'sentence-transformers'.")
+    exit()
+
+# Crear el vector store
+vector_store = FAISS.from_documents(documents, embeddings)
+print("Vector store creado exitosamente.")
+
+# Realizar búsqueda
+query = "Buscar información específica"
+results = vector_store.similarity_search(query)
+
+# Mostrar resultados
+if results:
+    print("Resultados de la búsqueda:")
+    for result in results:
+        print(result.page_content)
+else:
+    print("No se encontraron resultados para la consulta.")
