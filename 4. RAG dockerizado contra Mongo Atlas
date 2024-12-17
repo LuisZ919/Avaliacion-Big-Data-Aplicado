@@ -1,0 +1,40 @@
+#Creamos carpeta aparte para crear una imagen para la app.
+mkdir despliegue
+cd despliegue
+
+#Creamos un archivo llamado requirements.txt, aquí van las librerías necesarias para la app. En mi caso ->
+langchain
+langchain-community
+pymongo
+sentence-transformers
+faiss-cpu
+
+
+#Necesitamos un archivo Dockerfile, contenido ->
+FROM python:3.10
+
+WORKDIR /app
+
+# Instalar dependencias
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiar el código fuente
+COPY . .
+
+# Comando de inicio
+CMD ["python", "app.py"]
+
+
+#Y un archivo docker-compose.yml
+version: "3.8"
+services:
+  rag_app:
+    build: .
+    container_name: rag_app
+    environment:
+      - MONGO_URL=mongodb+srv://angeluis2027:PASS###@exercicio-de-sistemas-r.xjvoi.mongodb.net/?retryWrites=true&w=majority&appName=Exercicio-de-sistemas-RAG
+    ports:
+      - "5000:5000"
+
+
