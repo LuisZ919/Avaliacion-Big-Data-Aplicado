@@ -1,0 +1,30 @@
+import requests
+from bs4 import BeautifulSoup
+from langchain.schema import Document
+from langchain.embeddings import SentenceTransformerEmbeddings
+from langchain.vectorstores import FAISS
+
+# URL de la página web que deseas cargar
+url = "https://google.com"  # Cambia esto por la URL que desees
+
+# Hacer la solicitud
+response = requests.get(url)
+if response.status_code == 200:
+    soup = BeautifulSoup(response.text, "html.parser")
+    text = soup.get_text()
+
+    # Crear un documento usando la clase Document
+    documents = [Document(page_content=text)]
+
+    # Crear embeddings usando Sentence Transformers
+    embeddings = SentenceTransformerEmbeddings(model_name='all-MiniLM-L6-v2')
+
+    # Crear un vector store usando FAISS
+    vector_store = FAISS.from_documents(documents, embeddings)
+
+    # Realizar una búsqueda
+    query = "What is the main topic of the webpage?"
+    results = vector_store.similarity_search(query)
+    print("Results:", results)
+else:
+    print(f"Failed to fetch the URL. Status code: {response.status_code}")
