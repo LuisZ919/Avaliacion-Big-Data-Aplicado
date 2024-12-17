@@ -37,4 +37,17 @@ services:
     ports:
       - "5000:5000"
 
+#El app.py va por separado. 
+#De Mongo atlas, del cluster creado sacamos -> MONGO_URL=mongodb+srv://angeluis2027:PASS###@exercicio-de-sistemas-r.xjvoi.mongodb.net/?retryWrites=true&w=majority&appName=Exercicio-de-sistemas-RAG, permitimos el ecceso desde cualquier IP, 0.0.0.0/0
 
+
+#Comandos para construir la app y mandarla a mongo atlas-> 
+#docker build -t rag-app .
+#docker run --env-file .env rag-app
+
+
+#Archivo .env
+
+MONGODB_URI=mongodb+srv://angeluis2027:9A9l1998@exercicio-de-sistemas-r.xjvoi.mongodb.net/?retryWrites=true&w=majority&appName=Exercicio-de-sistemas-RAG
+DB_NAME=test
+COLLECTION_NAME=prueba
