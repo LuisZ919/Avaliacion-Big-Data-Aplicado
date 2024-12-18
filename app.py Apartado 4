@@ -4,7 +4,7 @@ from langchain_core.documents import Document
 from pymongo import MongoClient
 
 # Configurar conexión a MongoDB Atlas
-mongo_url = "mongodb+srv://angeluis2027:9A9l1998@exercicio-de-sistemas-r.xjvoi.mongodb.net/?retryWrites=true&w=majority&appName=Exercicio-de-sistemas-RAG"
+mongo_url = "mongodb+srv://angeluis2027:PASS##@exercicio-de-sistemas-r.xjvoi.mongodb.net/?retryWrites=true&w=majority&appName=Exercicio-de-sistemas-RAG"
 client = MongoClient(mongo_url)
 db = client["test"]
 collection = db["prueba"]
