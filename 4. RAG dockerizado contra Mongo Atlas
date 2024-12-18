@@ -48,6 +48,6 @@ services:
 
 #Archivo .env
 
-MONGODB_URI=mongodb+srv://angeluis2027:9A9l1998@exercicio-de-sistemas-r.xjvoi.mongodb.net/?retryWrites=true&w=majority&appName=Exercicio-de-sistemas-RAG
+MONGODB_URI=mongodb+srv://angeluis2027:PASS###@exercicio-de-sistemas-r.xjvoi.mongodb.net/?retryWrites=true&w=majority&appName=Exercicio-de-sistemas-RAG
 DB_NAME=test
 COLLECTION_NAME=prueba
